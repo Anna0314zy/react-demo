@@ -52,7 +52,7 @@ export default defineConfig(({ command }) => {
     ],
     base: './',
     server: {
-      strictPort: true,
+      strictPort: false,
       port: 5175,
       proxy: {
         // 当请求匹配这个路径前缀时，将请求转发到目标服务器

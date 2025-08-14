@@ -41,8 +41,6 @@ export default tseslint.config(
       'react-hooks/exhaustive-deps': 'warn',
       'jsx-a11y/alt-text': 'warn',
       'no-console': 'warn',
-      quotes: ['error', 'single'],
-      semi: ['error', 'always'],
     },
   },
   // 🔹 把关闭 no-explicit-any 放在真正的最后
