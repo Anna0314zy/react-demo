@@ -21,7 +21,6 @@ vite-plugin-pwa 就是让 Vite 项目秒变“像原生 App 一样能离线运�
  * 
  */
 import { reactPlugin, pwaPlugin } from './build/plugins'
-import packageJson from './package.json'
 import { resolve } from 'path'
 /**
  * 让 CommonJS 模块（require/module.exports）能在 Vite 项目中正常使用。
@@ -64,7 +63,7 @@ export default defineConfig(({ command }) => {
       },
     },
     build: {
-      outDir: 'dist/' + packageJson.version,
+      outDir: 'dist/',
       rollupOptions: {
         input: {
           index: resolve(__dirname, './index.html'),
