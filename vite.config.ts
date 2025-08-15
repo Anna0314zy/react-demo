@@ -20,7 +20,7 @@ import basicSsl from '@vitejs/plugin-basic-ssl'
 vite-plugin-pwa 就是让 Vite 项目秒变“像原生 App 一样能离线运行和安装”的网页 的神器。
  * 
  */
-import { reactPlugin, pwaPlugin } from './build/plugins'
+import { pwaPlugin } from './build/plugins'
 import { resolve } from 'path'
 /**
  * 让 CommonJS 模块（require/module.exports）能在 Vite 项目中正常使用。
@@ -28,18 +28,21 @@ import { resolve } from 'path'
 因为 Vite 默认是基于 ESModule（import/export）的，如果你引入一些老的 npm 包（比如 lodash 的旧版本），可能会因为它是 CommonJS 格式而无法直接运行，这个插件就是做转换的。
  */
 import { viteCommonjs } from '@originjs/vite-plugin-commonjs'
-
+import reactSwc from '@vitejs/plugin-react-swc'
 export default defineConfig(({ command }) => {
+  console.log(command)
   // 判断是否是生产环境
-  const prod = command === 'build'
   return {
     plugins: [
       legacy({
         targets: ['> 1%', 'last 2 versions', 'IE 11'],
         additionalLegacyPolyfills: ['regenerator-runtime/runtime'],
       }),
+      reactSwc({
+        jsxImportSource: 'react',
+        tsDecorators: true,
+      }),
       ...(Array.isArray(pwaPlugin) ? pwaPlugin : [pwaPlugin]),
-      ...(Array.isArray(reactPlugin(prod)) ? reactPlugin(prod) : [pwaPlugin]),
       compression(),
       visualizer({
         filename: './dist/stats.html', // 输出报告文件
@@ -69,7 +72,15 @@ export default defineConfig(({ command }) => {
           index: resolve(__dirname, './index.html'),
         },
       },
+      minify: 'terser',
+      terserOptions: {
+        compress: {
+          drop_console: true, // 删除所有 console
+          drop_debugger: true, // 删除 debugger
+        },
+      },
     },
+
     envDir: 'env',
     resolve: {
       alias: {
