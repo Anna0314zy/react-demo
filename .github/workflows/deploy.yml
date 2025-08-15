@@ -63,8 +63,8 @@ jobs:
       - name: Build Docker Image
         run: |
           echo "Building image with tag $DOCKER_TAG"
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/$DOCKER_IMAGE:$DOCKER_TAG .
+          docker build -t ${{ vars.DOCKER_USERNAME }}/$DOCKER_IMAGE:$DOCKER_TAG .
 
       # 推送镜像
       - name: Push Docker Image
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/$DOCKER_IMAGE:$DOCKER_TAG
+        run: docker push ${{ vars.DOCKER_USERNAME }}/$DOCKER_IMAGE:$DOCKER_TAG
