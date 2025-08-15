@@ -34,16 +34,16 @@ jobs:
       - name: Set Environment Variables
         run: |
           if [ "${GITHUB_REF}" == "refs/heads/main" ]; then
-            echo "BUILD_ENV=production" >> $GITHUB_ENV
-            echo "TAG=prod" >> $GITHUB_ENV
+            BUILD_ENV=production
+            TAG=pro
           else
-            echo "BUILD_ENV=development" >> $GITHUB_ENV
-            echo "TAG=test" >> $GITHUB_ENV
+            BUILD_ENV=development
+            TAG=test
           fi  # 结束 if
 
-          echo "DOCKER_IMAGE=react-demo" >> $GITHUB_ENV
+         
           VERSION=$(jq -r '.version' package.json)
-          echo "DOCKER_TAG=$TAG-$VERSION" >> $GITHUB_ENV
+          DOCKER_TAG=$TAG-$VERSION
 
       - name: Build and Push Docker Image
         run: |
