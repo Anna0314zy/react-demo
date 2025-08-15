@@ -6,9 +6,10 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        BUILD_ENV: ${BUILD_ENV}   # 从 workflow 传入
+        BUILD_ENV: ${BUILD_ENV}   # CI/CD 或本地 export BUILD_ENV=production
     image: ${DOCKER_USERNAME}/${DOCKER_IMAGE}:${DOCKER_TAG}  # 完全变量化
     ports:
       - "8080:80"
     environment:
-      - NODE_ENV=${BUILD_ENV}
+      NODE_ENV: ${BUILD_ENV}   # 容器内 NODE_ENV
+    restart: always
