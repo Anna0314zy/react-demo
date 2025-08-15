@@ -30,18 +30,22 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Set Environment Variables
+        env:
+        DOCKER_USERNAME_SECRET: ${{ secrets.DOCKER_USERNAME }}
         run: |
-          if [ "${GITHUB_REF}" == "refs/heads/main" ]; then
+         if [ "${GITHUB_REF}" == "refs/heads/main" ]; then
             echo "BUILD_ENV=production" >> $GITHUB_ENV
             echo "TAG=prod" >> $GITHUB_ENV
-          else
+         else
             echo "BUILD_ENV=development" >> $GITHUB_ENV
             echo "TAG=test" >> $GITHUB_ENV
+         fi  # 结束 if
 
-          echo "DOCKER_IMAGE=react-demo" >> $GITHUB_ENV
-          echo "DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}" >> $GITHUB_ENV
-          VERSION=$(jq -r '.version' package.json)
-          echo "DOCKER_TAG=$TAG-$VERSION" >> $GITHUB_ENV
+         echo "DOCKER_IMAGE=react-demo" >> $GITHUB_ENV
+         echo "DOCKER_USERNAME=$DOCKER_USERNAME_SECRET" >> $GITHUB_ENV
+         VERSION=$(jq -r '.version' package.json)
+         echo "DOCKER_TAG=$TAG-$VERSION" >> $GITHUB_ENV
+
 
       - name: Build and Push Docker Image
         run: |
