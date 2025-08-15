@@ -31,13 +31,13 @@ jobs:
 
       - name: Set Environment Variables
         env:
-        DOCKER_USERNAME_SECRET: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_USERNAME_SECRET: ${{ secrets.DOCKER_USERNAME }}
         run: |
           if [ "${GITHUB_REF}" == "refs/heads/main" ]; then
-             TAG=prod
-             BUILD_ENV=production
+            TAG=prod
+            BUILD_ENV=production
           else
-             TAG=test
+            TAG=test
             BUILD_ENV=development
           fi
 
@@ -52,10 +52,6 @@ jobs:
           echo "DOCKER_IMAGE=$DOCKER_IMAGE" >> $GITHUB_ENV
           echo "DOCKER_USERNAME=$DOCKER_USERNAME" >> $GITHUB_ENV
           echo "DOCKER_TAG=$DOCKER_TAG" >> $GITHUB_ENV
-
-            
-         
-
 
       - name: Build and Push Docker Image
         run: |
