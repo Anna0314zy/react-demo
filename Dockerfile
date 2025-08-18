@@ -13,8 +13,7 @@ COPY . .
 ARG BUILD_ENV=production
 
 # 根据环境构建不同版本
-RUN [ "$BUILD_ENV" = "production" ] && pnpm build:prod || pnpm build
-
+RUN if [ "$BUILD_ENV" = "production" ]; then pnpm build:prod; else pnpm build; fi
 # --------- Stage 2: Serve ---------
 FROM nginx:alpine
 
